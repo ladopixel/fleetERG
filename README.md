@@ -1,9 +1,15 @@
 # fleetERG
 ## This application has been created with Chakra-ui using Create React App and Fleet SDK.
 
-### We will send an NFT using Fleet-sdk
+✅ Create token
+✅ Send ERG
+✅ Send tokens
+✅ Send NFT
+✅ Burn tokens
 
+## Fleet SDK
 https://fleet-sdk.github.io/docs/
+
 https://github.com/fleet-sdk
 
 ### Nautilus wallet
