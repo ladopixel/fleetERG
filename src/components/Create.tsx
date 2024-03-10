@@ -19,6 +19,8 @@ import {
 
 import { OutputBuilder, TransactionBuilder } from "@fleet-sdk/core";
 
+import Title from '../components/Title';
+
 declare global {
   interface Window {
     ergoConnector: any;
@@ -89,6 +91,7 @@ function Create() {
 
     return (
         <>
+            <Title title='Create token'/>
 
             <FormControl>
                 <Stack spacing={3}>

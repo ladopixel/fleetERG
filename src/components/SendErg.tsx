@@ -19,6 +19,8 @@ import {
 
 import { OutputBuilder, TransactionBuilder } from "@fleet-sdk/core";
 
+import Title from '../components/Title';
+
 declare global {
   interface Window {
     ergoConnector: any;
@@ -72,7 +74,7 @@ function SendERG() {
 
     return (
         <>
-
+            <Title title='Send ERG'/>
             <FormControl>
                 <Stack spacing={3}>
 

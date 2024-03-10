@@ -22,6 +22,8 @@ import {
 
 import { OutputBuilder, TransactionBuilder } from "@fleet-sdk/core";
 
+import Title from '../components/Title';
+
 declare global {
   interface Window {
     ergoConnector: any;
@@ -99,7 +101,7 @@ function SendTokens() {
 
     return (
         <>
-
+            <Title title='Send tokens'/>
             <FormControl>
                 <Stack spacing={3}>
 
@@ -137,18 +139,18 @@ function SendTokens() {
                     </Button>
 
                     {visible && (
-                        <Box textAlign={'left'}>
-                            <Heading size='md' mt={5} mb={3}>Token details</Heading>
-                            <Token 
-                                    id={tokenDetails.id}
-                                    name={tokenDetails.name}
-                                    description={tokenDetails.description}
-                                    decimals={tokenDetails.decimals}
-                                    emissionAmount={tokenDetails.emissionAmount}
-                                    type={tokenDetails.type}
-                                    boxId={tokenDetails.boxId}
-                                />
-                        </Box>
+                            <Box textAlign={'left'}>
+                                <Heading size='md' mt={5} mb={3}>Token details</Heading>
+                                <Token 
+                                        id={tokenDetails.id}
+                                        name={tokenDetails.name}
+                                        description={tokenDetails.description}
+                                        decimals={tokenDetails.decimals}
+                                        emissionAmount={tokenDetails.emissionAmount}
+                                        type={tokenDetails.type}
+                                        boxId={tokenDetails.boxId}
+                                    />
+                            </Box>
                     )}
                     
                     {sent && (

@@ -5,12 +5,13 @@ import {
     Box, 
     Divider,
     HStack, 
+    Link,
     Text,
     useToast,
-    VStack,
 } from '@chakra-ui/react'
 
-import Token from '../components/Token';
+import Token from './Token';
+import Title from './Title';
 
 
 declare global {
@@ -50,16 +51,34 @@ function Header() {
     useEffect(() => {
         const listaTokens = Tokens.map((token, index) => (
           <Box key={index} fontSize={'medium'}>
-            <Text>Token ID: {token.tokenId}</Text>
-            <Text>Balance: {token.balance}</Text>
-            <Divider />
+            <Link 
+                href={`https://explorer.ergoplatform.com/en/token/${token.tokenId}`} 
+                isExternal
+                color='teal.500'>
+            {token.tokenId}
+            </Link>
+            <Text>{token.balance}</Text>
+            <Divider bg={'gray'} mb={1}/>
           </Box>
           
         ));
 
         setInfoTokens(listaTokens);
-      }, [Tokens]); // Dependencia en Tokens
+      }, [Tokens]);
       
+    useEffect(() => {
+        if (!toast.isActive(id)) {
+            toast({
+                id: 'init',
+                title: 'IMPORTANT!!!!',
+                description: "Remember to always check the connector before signing your transaction.",
+                status: 'warning',
+                duration: 9000,
+                position: 'top',
+                isClosable: true,
+            }) 
+        }
+    }, [])
 
     async function info_wallet(): Promise<void> { 
         connected = await window.ergoConnector.nautilus.connect(); 
@@ -70,18 +89,6 @@ function Header() {
             setTokens(tokens);
             setWallet(await ergo.get_change_address());
             setHeight(await ergo.get_current_height());
-            
-            if (!toast.isActive(id)) {
-                toast({
-                    id: 'init',
-                    title: 'IMPORTANT!!!!',
-                    description: "Remember to always check the connector before signing your transaction.",
-                    status: 'warning',
-                    duration: 9000,
-                    position: 'top',
-                    isClosable: true,
-                }) 
-            }
         } else { 
             setConnect(false);
         }
@@ -90,6 +97,8 @@ function Header() {
 
     return (
         <>
+            <Title title='My wallet'/>
+
             {Connect ? (
                 <Box textAlign={'left'}>
                     <Box>

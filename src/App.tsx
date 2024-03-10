@@ -1,38 +1,39 @@
 import * as React from "react"
 
 import {
-  ChakraProvider,
   Box,
+  ChakraProvider,
   Grid,
-  theme,
+  Tab, 
   Tabs, 
   TabList, 
-  TabPanels, 
-  Tab, 
   TabPanel, 
+  TabPanels, 
+  theme,
 } from "@chakra-ui/react"
 import { ColorModeSwitcher } from "./ColorModeSwitcher"
 
-import Create from './components/Create';
-import SendErg from './components/SendErg';
-import SendTokens from './components/SendTokens';
-import SendNFT from './components/SendNFT';
 import BurnTokens from './components/BurnTokens';
-import Header from "./components/Header";
+import Create from './components/Create';
+import Header from "./components/MyWallet";
+import SendErg from './components/SendErg';
+import SendNFT from './components/SendNFT';
+import SendTokens from './components/SendTokens';
 
 export const App = () => (
+  
   <ChakraProvider theme={theme}>
     <Box textAlign="center" fontSize="xl">
       <Grid p={3}>
           <ColorModeSwitcher justifySelf="flex-end" />
           <Tabs>
             <TabList>
-              <Tab>My wallet</Tab>
-              <Tab>Create token</Tab>
-              <Tab>Send ERG</Tab>
-              <Tab>Send tokens</Tab>
-              <Tab>Send NFT</Tab>
-              <Tab>Burn tokens</Tab>
+              <Tab> My wallet</Tab>
+              <Tab> Create token</Tab>
+              <Tab> Send ERG</Tab>
+              <Tab> Send tokens</Tab>
+              <Tab> Send NFT</Tab>
+              <Tab> 🔥 Burn tokens</Tab>
             </TabList>
             <TabPanels>
               <TabPanel>

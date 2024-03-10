@@ -19,6 +19,8 @@ import {
 
 import { OutputBuilder, TransactionBuilder } from "@fleet-sdk/core";
 
+import Title from '../components/Title';
+
 declare global {
   interface Window {
     ergoConnector: any;
@@ -71,7 +73,8 @@ function BurnTokens() {
 
     return (
         <>
-
+            <Title title='Burn tokens'/>
+            
             <FormControl>
                 <Stack spacing={3}>
 

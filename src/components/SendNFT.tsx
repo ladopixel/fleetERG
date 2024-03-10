@@ -3,9 +3,11 @@ import React, { useState, ChangeEvent } from 'react';
 import { 
     Alert,
     AlertIcon,
+    Box,
     Button,
     FormControl,
     FormLabel,
+    Heading,
     Input ,
     Link,
     Stack,
@@ -13,6 +15,9 @@ import {
 } from '@chakra-ui/react'
 
 import { OutputBuilder, TransactionBuilder } from "@fleet-sdk/core";
+import Title from '../components/Title';
+import Nft from './Nft';
+import { resolveIpfs, toUtf8String } from '../functions/Functions'
 
 declare global {
   interface Window {
@@ -31,21 +36,44 @@ function SendNFT() {
     const [sent, setSent] = useState(false);
     const [tx, setTx] = useState('...');
 
-
     const handleTokenNameChange = (event: ChangeEvent<HTMLInputElement>) => {
         setWallet(event.target.value);
     }
-
-    const handleTokenIDChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setTokenID(event.target.value);
-
-    }
-
+    
     const handleSubmit = () => {
-        create_token(wallet, tokenID)
+        sendNft(wallet, tokenID)
+    }
+    
+    const [tokenDetails, setTokenDetails] = useState<{ name: string; description: string; r9: string; }>({
+        name: '',
+        description: '',
+        r9: '',
+    });
+    
+    const [visible, setVisible] = useState(false)
+
+    const handleTokenIDChange = async (event: ChangeEvent<HTMLInputElement>) => {
+        const tokenId = event.target.value;
+        setTokenID(tokenId);
+
+        try {
+            const response = await fetch(`https://api.ergoplatform.com/api/v0/assets/${tokenId}/issuingBox`);
+            if (!response.ok) {
+                throw new Error('Error with API');
+            }
+            const data = await response.json();
+            setTokenDetails({
+                name: data[0].assets[0].name,
+                description: toUtf8String(data[0].additionalRegisters.R5).substring(2),
+                r9: resolveIpfs(toUtf8String(data[0].additionalRegisters.R9).substring(2))
+            });
+            setVisible(true)
+        } catch (error) {
+            console.error('Error:', error);
+        }
     }
 
-    async function create_token(wallet: string, tokenID: any): Promise<void> { 
+    async function sendNft(wallet: string, tokenID: any): Promise<void> { 
         connected = await window.ergoConnector.nautilus.connect(); 
         if (connected) {
           const height = await ergo.get_current_height();
@@ -73,7 +101,7 @@ function SendNFT() {
 
     return (
         <>
-
+            <Title title='Send NFT'/>
             <FormControl>
                 <Stack spacing={3}>
 
@@ -96,7 +124,17 @@ function SendNFT() {
                     <Button colorScheme='teal' variant='outline' onClick={handleSubmit}> 
                         Send
                     </Button>
-                    
+
+                    {visible && (
+                        <Box textAlign={'left'}>
+                            <Heading size='md' mt={5} mb={3}>Token details</Heading>
+                            <Nft 
+                                    r9={tokenDetails.r9}
+                                    name={tokenDetails.name}
+                                    description={tokenDetails.description}
+                                />
+                        </Box>
+                    )}
                     
                     {sent && (
                         <VStack>
@@ -113,7 +151,6 @@ function SendNFT() {
 
                 </Stack>
             </FormControl>
-
             
         </>
     );
